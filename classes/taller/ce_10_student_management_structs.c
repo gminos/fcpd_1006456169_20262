@@ -12,130 +12,139 @@
 #define COLOR_YELLOW "\033[33m"
 #define COLOR_RESET "\033[0m"
 
-struct Estudiante {
+struct Student {
   int id;
-  char nombre[10];
-  double notas[3];
-  double promedio;
-  int aprobado;
+  char name[10];
+  double grades[3];
+  double average;
+  int is_passed;
 };
 
-void cantidad_estudiantes(FILE *file, int *numero_estudiantes) {
-  fscanf(file, "%d", numero_estudiantes);
+void get_student_count(FILE *file, int *student_count) {
+  fscanf(file, "%d", student_count);
 }
 
-void leer_estudiantes(FILE *file, struct Estudiante *arreglo_estudiantes,
-                      int *numero_estudiantes) {
-
-  for (int i = 0; i < *numero_estudiantes; i++) {
+void read_students(FILE *file, struct Student *students,
+                   const int *student_count) {
+  for (int i = 0; i < *student_count; i++) {
     fscanf(file,
            "%d"
            "%s"
            "%lf"
            "%lf"
            "%lf",
-           &arreglo_estudiantes[i].id, arreglo_estudiantes[i].nombre,
-           &arreglo_estudiantes[i].notas[0], &arreglo_estudiantes[i].notas[1],
-           &arreglo_estudiantes[i].notas[2]);
+           &students[i].id, students[i].name,
+           &students[i].grades[0], &students[i].grades[1],
+           &students[i].grades[2]);
   }
 }
 
-void determinar_promedio_cada_estudiante(struct Estudiante *arreglo_estudiantes,
-                                         int *numero_estudiantes) {
-  double promedio = 0;
-  for (int j = 0; j < *numero_estudiantes; j++) {
+void calculate_student_averages(struct Student *students,
+                                const int *student_count) {
+  double sum = 0;
+  for (int j = 0; j < *student_count; j++) {
     for (int h = 0; h < 3; h++) {
-      promedio += arreglo_estudiantes[j].notas[h];
+      sum += students[j].grades[h];
     }
-    arreglo_estudiantes[j].promedio = promedio / 3;
-    promedio = 0;
+    students[j].average = sum / 3.0;
+    sum = 0;
   }
 }
 
-int determinar_aprobado(double *promedio) {
-  return (*promedio >= 60.0) ? 0 : 1;
+int check_if_passed(const double *average) {
+  return (*average >= 60.0) ? 0 : 1;
 }
 
-void agregar_aprobacion_estudiante(struct Estudiante *arreglo_estudiantes,
-                                   int *numero_estudiantes) {
-  for (int p = 0; p < *numero_estudiantes; p++) {
-    arreglo_estudiantes[p].aprobado =
-        determinar_aprobado(&arreglo_estudiantes[p].promedio);
+void set_students_pass_status(struct Student *students,
+                              const int *student_count) {
+  for (int p = 0; p < *student_count; p++) {
+    students[p].is_passed =
+        check_if_passed(&students[p].average);
   }
 }
 
-void cantidad_estudiantes_aprobados(
-    const struct Estudiante *arreglo_estudiantes, const int *numero_estudiantes,
-    int *cantidad_aprobados) {
-  for (int k = 0; k < *numero_estudiantes; k++) {
-    if (arreglo_estudiantes[k].aprobado == 0) {
-      (*cantidad_aprobados)++;
-    }
-  }
-}
-
-void estudiantes_aprobados(struct Estudiante *arreglo_estudiantes,
-                           const int *numero_estudiantes,
-                           char **arreglo_estudiantes_aprobados) {
-  int q = 0;
-  for (int u = 0; u < *numero_estudiantes; u++) {
-    if (arreglo_estudiantes[u].aprobado == 0) {
-      arreglo_estudiantes_aprobados[q] = arreglo_estudiantes[u].nombre;
-      q++;
+void count_passed_students(const struct Student *students,
+                            const int *student_count,
+                            int *passed_count) {
+  for (int k = 0; k < *student_count; k++) {
+    if (students[k].is_passed == 0) {
+      (*passed_count)++;
     }
   }
 }
 
-void imprimir_arreglo_estudiantes_aprobados(
-    char **arreglo_estudiantes_aprobados,
-    const int *cantidad_estudiantes_aprobados) {
-  for (int a = 0; a < *cantidad_estudiantes_aprobados; a++) {
-    printf(COLOR_GREEN "Estudiante " COLOR_RESET);
-    printf(COLOR_GREEN "%s " COLOR_RESET, arreglo_estudiantes_aprobados[a]);
-    printf(COLOR_GREEN "aprobado\n" COLOR_RESET);
+void get_passed_students_names(const struct Student *students,
+                                const int *student_count,
+                                char **passed_students_names) {
+  int idx = 0;
+  for (int u = 0; u < *student_count; u++) {
+    if (students[u].is_passed == 0) {
+      passed_students_names[idx] = (char *)students[u].name;
+      idx++;
+    }
+  }
+}
+
+void print_passed_students(char **passed_students_names,
+                            const int *passed_count) {
+  for (int a = 0; a < *passed_count; a++) {
+    printf(COLOR_GREEN "Student %s passed\n" COLOR_RESET,
+           passed_students_names[a]);
   }
   printf("-----------------------------------------------------------\n");
 }
 
-void imprimiri_estudiante_junto_promedio(struct Estudiante *arreglo_estudiantes,
-                                         int *numero_estudiantes) {
-  for (int f = 0; f < *numero_estudiantes; f++) {
-    printf(COLOR_YELLOW "Estudiante %s, promedio %.3f\n" COLOR_RESET,
-           arreglo_estudiantes[f].nombre, arreglo_estudiantes[f].promedio);
+void print_students_with_averages(const struct Student *students,
+                                  const int *student_count) {
+  for (int f = 0; f < *student_count; f++) {
+    printf(COLOR_YELLOW "Student %s, average: %.3f\n" COLOR_RESET,
+           students[f].name, students[f].average);
   }
   printf(
       "-------------------------------------------------------------------\n");
 }
 
 int main(void) {
-  int numero_estudiantes = 0;
-  int cantidad_aprobados = 0;
+  int student_count = 0;
+  int passed_count = 0;
 
   FILE *file = fopen("students.txt", "r");
+  if (file == NULL) {
+    printf("Error opening students.txt file.\n");
+    return EXIT_FAILURE;
+  }
 
-  cantidad_estudiantes(file, &numero_estudiantes);
+  get_student_count(file, &student_count);
 
-  struct Estudiante *arreglo_estudiantes =
-      malloc(numero_estudiantes * sizeof(struct Estudiante));
+  struct Student *students =
+      malloc(student_count * sizeof(struct Student));
+  if (students == NULL) {
+    fclose(file);
+    return EXIT_FAILURE;
+  }
 
-  leer_estudiantes(file, arreglo_estudiantes, &numero_estudiantes);
-  determinar_promedio_cada_estudiante(arreglo_estudiantes, &numero_estudiantes);
-  agregar_aprobacion_estudiante(arreglo_estudiantes, &numero_estudiantes);
-  cantidad_estudiantes_aprobados(arreglo_estudiantes, &numero_estudiantes,
-                                 &cantidad_aprobados);
-  char **arreglo_estudiantes_aprobados =
-      malloc(cantidad_aprobados * sizeof(char *));
+  read_students(file, students, &student_count);
+  calculate_student_averages(students, &student_count);
+  set_students_pass_status(students, &student_count);
+  count_passed_students(students, &student_count, &passed_count);
 
-  estudiantes_aprobados(arreglo_estudiantes, &numero_estudiantes,
-                        arreglo_estudiantes_aprobados);
+  char **passed_students_names =
+      malloc(passed_count * sizeof(char *));
+  if (passed_students_names == NULL) {
+    free(students);
+    fclose(file);
+    return EXIT_FAILURE;
+  }
 
-  imprimir_arreglo_estudiantes_aprobados(arreglo_estudiantes_aprobados,
-                                         &cantidad_aprobados);
-  imprimiri_estudiante_junto_promedio(arreglo_estudiantes, &numero_estudiantes);
+  get_passed_students_names(students, &student_count,
+                            passed_students_names);
+
+  print_passed_students(passed_students_names, &passed_count);
+  print_students_with_averages(students, &student_count);
 
   fclose(file);
-  free(arreglo_estudiantes);
-  free(arreglo_estudiantes_aprobados);
+  free(students);
+  free(passed_students_names);
 
   return EXIT_SUCCESS;
 }
