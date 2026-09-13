@@ -1,3 +1,10 @@
+/**
+ * @file ce_07_matrix_diagonals.c
+ * @brief Create a square matrix, sum its main and secondary diagonals, and compare them
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

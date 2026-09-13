@@ -1,3 +1,10 @@
+/**
+ * @file ce_01_prime_array.c
+ * @brief Count prime numbers in a dynamically allocated array of random integers
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

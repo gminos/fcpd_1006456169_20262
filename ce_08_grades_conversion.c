@@ -1,3 +1,10 @@
+/**
+ * @file ce_08_grades_conversion.c
+ * @brief Convert numerical score into letter grade using nested conditionals and logical operators
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

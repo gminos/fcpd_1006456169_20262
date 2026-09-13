@@ -1,3 +1,10 @@
+/**
+ * @file ce_03_min_max_ternary.c
+ * @brief Find maximum and minimum of three numbers using ternary operators
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

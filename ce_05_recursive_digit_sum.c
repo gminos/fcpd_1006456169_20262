@@ -1,3 +1,10 @@
+/**
+ * @file ce_05_recursive_digit_sum.c
+ * @brief Calculate the sum of digits of a number recursively
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

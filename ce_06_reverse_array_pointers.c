@@ -1,3 +1,10 @@
+/**
+ * @file ce_06_reverse_array_pointers.c
+ * @brief Reverse an array of integers using pointer arithmetic
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>

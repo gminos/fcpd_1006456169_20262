@@ -1,3 +1,10 @@
+/**
+ * @file ce_02_swap_pointers.c
+ * @brief Swap values of two variables using pointers
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

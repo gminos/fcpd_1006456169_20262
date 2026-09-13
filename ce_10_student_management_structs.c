@@ -1,3 +1,10 @@
+/**
+ * @file ce_10_student_management_structs.c
+ * @brief Student management system using structs, dynamic memory, and file I/O
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

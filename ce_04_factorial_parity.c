@@ -1,3 +1,10 @@
+/**
+ * @file ce_04_factorial_parity.c
+ * @brief Calculate factorial of a number and determine its parity
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 

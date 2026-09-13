@@ -1,3 +1,10 @@
+/**
+ * @file ce_09_dynamic_array_sum.c
+ * @brief Sum all elements of a dynamically allocated array
+ * @author Jose Hernandez Giraldo
+ * @date 2026-09-13
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
