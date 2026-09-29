@@ -3,3 +3,4 @@ ce_02_array_sum_pointers
 ce_03_matrix_pointer_to_pointer
 ce_04_swap_pointers
 ce_05_string_pointers
+ce_06_parallel_array_sum_openmp
