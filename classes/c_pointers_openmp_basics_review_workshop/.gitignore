@@ -5,3 +5,4 @@ ce_04_swap_pointers
 ce_05_string_pointers
 ce_06_parallel_array_sum_openmp
 omp_07_dot_product_reduction
+omp_08_matrix_multiplication
