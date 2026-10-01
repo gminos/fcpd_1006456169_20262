@@ -73,14 +73,18 @@ int main(void) {
   long long sum_par = sum_array_parallel(array, size);
   double elapsed_par = omp_get_wtime() - start_par;
 
-  double speedup = elapsed_seq / elapsed_par;
-
   printf("Total sum sequential: %lld\n", sum_seq);
-  printf("Sequential time: %.3fsg\n", elapsed_seq);
-  printf("-----------------------------------\n");
   printf("Total sum parallel: %lld\n", sum_par);
-  printf("Parallel time: %.3fsg\n", elapsed_par);
-  printf("Speedup: %.2fx\n", speedup);
+  printf("-----------------------------------\n");
+
+  int num_hilos = omp_get_max_threads();
+  double speedup = elapsed_seq / elapsed_par;
+  double eficiencia = speedup / num_hilos;
+
+  printf("Ts (Secuencial): %.6f s\n", elapsed_seq);
+  printf("Tp (Paralelo):   %.6f s\n", elapsed_par);
+  printf("Speedup:         %.2fx\n", speedup);
+  printf("Eficiencia:      %.2f%%\n", eficiencia * 100);
 
   free(array);
 

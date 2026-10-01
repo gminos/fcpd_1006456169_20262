@@ -1,29 +1,31 @@
 /**
  * @file omp_08_matrix_multiplication.c
  * @brief Practice logic exercises in C focusing on OpenMP parallel matrix multiplication
+ * and performance metrics
  * @author Jose Belarmino Hernandez Giraldo
  * @date 2026-09-29
  *
  * FUNCTIONALITY:
  * This program multiplies two 3x3 matrices both sequentially and in parallel using
  * OpenMP (`#pragma omp parallel for`). Elements are accessed via 2D pointer arithmetic
- * (*(*(matrix + i) + j)). Execution times are measured using `omp_get_wtime()` for comparison,
- * and the resulting matrices are printed to verify correctness.
+ * (*(*(matrix + i) + j)). Execution times are measured using `omp_get_wtime()`, and
+ * performance metrics (Ts, Tp, Speedup, Efficiency) are printed.
  *
  * EXPECTED OUTPUT:
  * Sequential matrix multiplication result:
  *    30   24   18
  *    84   69   54
  *   138  114   90
- * Sequential time: X.XXXXXXXXXsg
  * -----------------------------------
- * Thread X of Y processing i = ...
- * ...
  * Parallel matrix multiplication result:
  *    30   24   18
  *    84   69   54
  *   138  114   90
- * Parallel time: X.XXXXXXXXXsg
+ * -----------------------------------
+ * Ts (Secuencial): X.XXXXXX s
+ * Tp (Paralelo):   X.XXXXXX s
+ * Speedup:         X.XXx
+ * Eficiencia:      X.XX%
  */
 
 #include <omp.h>
@@ -92,11 +94,19 @@ int main(void) {
 
   printf("Sequential matrix multiplication result:\n");
   print_matrix(matrix_result_seq);
-  printf("Sequential time: %.9fsg\n", elapsed_seq);
   printf("-----------------------------------\n");
   printf("Parallel matrix multiplication result:\n");
   print_matrix(matrix_result_par);
-  printf("Parallel time: %.9fsg\n", elapsed_par);
+  printf("-----------------------------------\n");
+
+  int num_hilos = omp_get_max_threads();
+  double speedup = elapsed_seq / elapsed_par;
+  double eficiencia = speedup / num_hilos;
+
+  printf("Ts (Secuencial): %.6f s\n", elapsed_seq);
+  printf("Tp (Paralelo):   %.6f s\n", elapsed_par);
+  printf("Speedup:         %.2fx\n", speedup);
+  printf("Eficiencia:      %.2f%%\n", eficiencia * 100);
 
   return EXIT_SUCCESS;
 }
